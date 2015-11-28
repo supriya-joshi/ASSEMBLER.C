@@ -80,4 +80,116 @@ while(!feof(f1))
     fclose(f2);
    // getch();
   }
+    void pass_2()
+{
+FILE *fint,*ftab,*flen,*fsym,*fout;
+int op1[10],i,j=0,len,co=0,c=0;
+char add[10],symadd[10],op[10],start[10],la[20],m[10],operand[10],symtab[10],opmne[10];
+fint=fopen("ques_inter.txt","r");
+flen=fopen("length.txt","r");
+ftab=fopen("quesoptab.txt","r");
+fsym=fopen("ques_symtab.txt","r");
+fout=fopen("result.txt","w+");
+fscanf(fint,"%s%s%s%s",add,la,m,op);
+printf("\n\n\n\n\nobject file\n\n\n");
+if(strcmp(m,"START")==0)
+{
+
+strcpy(start,op);
+fscanf(flen,"%x",&len);
+
+}
+printf("H^%s^%s^%X\nT^00%s^%x",la,start,len,start,len);
+fprintf(fout,"H^%s^%s^%X\nT^00%s",la,start,len,start);
+fscanf(fint,"%s%s%s%s",add,la,m,operand);
+while(strcmp(m,"END")!=0)
+{
+fscanf(ftab,"%s%s",opmne,op);
+while(!feof(ftab))
+{
+c=0;
+if(strcmp(m,opmne)==0)
+{
+    c==1;
+fclose(ftab);
+if(strcmp(operand,"-")!=0)
+{
+    rewind(fsym);
+fscanf(fsym,"%s%s",symadd,symtab);
+
+while(!feof(fsym))
+{
+if(strcmp(operand,symtab)==0)
+{
+fprintf(fout,"^%s%s",op,symadd);
+printf("^%s%s",op,symadd);
+break;
+}
+else
+{
+fscanf(fsym,"%s%s",symadd,symtab);
+}
+}
+}
+else
+{
+   fprintf(fout,"0000");
+printf("0000");
+}
+break;
+
+}
+else
+fscanf(ftab,"%s%s",opmne,op);
+}
+if(c==0)
+{
+if((strcmp(m,"BYTE")==0)||(strcmp(m,"WORD")==0))
+{
+if(strcmp(m,"WORD")==0)
+{
+
+printf("^0000%s",operand);
+fprintf(fout,"^0000%s",operand);
+}
+
+else
+{
+    fprintf(fout,"^");
+    printf("^");
+len=strlen(operand);
+for(i=2;i<len;i++)
+{
+
+printf("%d",operand[i]);
+fprintf(fout,"%d",operand[i]);
+}
+//printf("^");
+//fprintf(fout,"^");
+}
+}
+}
+fclose(ftab);
+fscanf(fint,"%s%s%s%s",add,la,m,operand);
+ftab=fopen("quesoptab.txt","r");
+fseek(ftab,SEEK_SET,0);
+//break;
+}
+
+printf("\nE^00%s",start);
+fprintf(fout,"\nE^00%s",start);
+fclose(fint);
+fclose(ftab);
+fclose(fsym);
+fclose(flen);
+fclose(fout);
+//getch();
+}
+int main()
+{
+    pass_one();
+    pass_2();
+    return 1;
+}
+
   
